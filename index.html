@@ -1,132 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<style>
-  body {
-    background-color: #f0f4f8;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .app-card {
-    background: #ffffff;
-    max-width: 400px;
-    width: 100%;
-    padding: 24px;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    box-sizing: border-box;
-  }
-</style>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReceiptLens AI</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2563eb">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 400px;
-      margin: 30px auto;
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 90%;
-    }
-    .install-card {
-      background: #eff6ff;
-      border: 2px solid #2563eb;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-    #install-btn {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 10px;
-    }
-    .upload-area {
-      border: 2px dashed #93c5fd;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px 0;
-      background: #f8fafc;
-    }
-    .btn-scan {
-      width: 100%;
-      background: #1e40af;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReceiptLens AI</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .main-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 24px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            background: #f8fafc;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <div class="main-card">
+        <h1>ReceiptLens AI</h1>
+        <p>Instant receipt parsing & tax audit for modern businesses.</p>
+        
+        <div class="upload-box">
+            <span style="font-size: 14px; color: #475569; display:block; margin-bottom:10px;">Tap to select receipt image</span>
+            <input type="file" id="receiptInput" accept="image/*">
+        </div>
 
-  
-
-    <h2>ReceiptLens AI</h2>
-    <p>Instant receipt parsing & tax audit for modern businesses.</p>
-    
-    <div class="upload-area">
-      <p style="margin: 0 0 10px 0; font-size: 14px; color: #64748b;">Tap to select receipt image</p>
-      <input type="file" id="file-input" accept="image/*">
+        <button class="btn" onclick="alert('Scanning feature ready!')">Scan Receipt Now</button>
     </div>
-
-    <button class="btn-scan">Scan Receipt Now</button>
-  </div>
-
-  <script>
-    let deferredPrompt;
-    const installBtn = document.getElementById('install-btn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      } else {
-        // Fallback instructions if prompt isn't captured yet
-        alert("To install: Tap the 3 dots (...) in the top right of Chrome and select 'Install app' or 'Add to Home screen'.");
-      }
-    });
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js');
-    }
-  </script>
 </body>
 </html>
