@@ -10,10 +10,10 @@
             background-color: #f8fafc;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 16px;
+            padding: 20px 16px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
         }
@@ -21,28 +21,44 @@
             background: #ffffff;
             width: 100%;
             max-width: 400px;
-            padding: 24px;
+            padding: 28px 24px;
             border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             text-align: center;
             box-sizing: border-box;
+            margin-top: 10px;
         }
         h1 {
             font-size: 24px;
             color: #0f172a;
+            margin-top: 0;
             margin-bottom: 8px;
+            font-weight: 700;
         }
         p {
             color: #64748b;
             font-size: 14px;
             margin-bottom: 24px;
+            line-height: 1.5;
         }
         .upload-box {
-            border: 2px dashed #cbd5e1;
+            border: 2px dashed #93c5fd;
             border-radius: 16px;
-            padding: 20px;
-            background: #f8fafc;
-            margin-bottom: 20px;
+            padding: 24px 16px;
+            background: #eff6ff;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .upload-text {
+            font-size: 14px;
+            color: #1e40af;
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        input[type="file"] {
+            font-size: 13px;
+            color: #475569;
         }
         .btn {
             background: #2563eb;
@@ -54,6 +70,10 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        .btn:active {
+            background: #1d4ed8;
         }
     </style>
 </head>
@@ -63,7 +83,7 @@
         <p>Instant receipt parsing & tax audit for modern businesses.</p>
         
         <div class="upload-box">
-            <span style="font-size: 14px; color: #475569; display:block; margin-bottom:10px;">Tap to select receipt image</span>
+            <span class="upload-text">Tap to select receipt image</span>
             <input type="file" id="receiptInput" accept="image/*">
         </div>
 
