@@ -1,93 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReceiptLens AI</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
-        body {
-            background-color: #f8fafc;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 20px 16px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-        .main-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 400px;
-            padding: 28px 24px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-            text-align: center;
-            box-sizing: border-box;
-            margin-top: 10px;
-        }
-        h1 {
-            font-size: 24px;
-            color: #0f172a;
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-        p {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-        .upload-box {
-            border: 2px dashed #93c5fd;
-            border-radius: 16px;
-            padding: 24px 16px;
-            background: #eff6ff;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        .upload-text {
-            font-size: 14px;
-            color: #1e40af;
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-        input[type="file"] {
-            font-size: 13px;
-            color: #475569;
-        }
-        .btn {
-            background: #2563eb;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-        .btn:active {
-            background: #1d4ed8;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReceiptLens AI</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #install-banner {
+      display: none;
+      width: 100%;
+      background: #1e40af;
+      color: white;
+      padding: 12px 16px;
+      box-sizing: border-box;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    #install-btn {
+      background: #ffffff;
+      color: #1e40af;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 400px;
+      width: 90%;
+      margin: 40px auto;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .upload-area {
+      border: 2px dashed #93c5fd;
+      border-radius: 12px;
+      padding: 30px 20px;
+      margin: 20px 0;
+      background: #eff6ff;
+      cursor: pointer;
+    }
+    .upload-area input[type="file"] {
+      display: none;
+    }
+    .btn-scan {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-scan:disabled {
+      background: #93c5fd;
+      cursor: not-allowed;
+    }
+    #scanResultContainer {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .input-group {
+      margin-bottom: 12px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <div class="main-card">
-        <h1>ReceiptLens AI</h1>
-        <p>Instant receipt parsing & tax audit for modern businesses.</p>
-        
-        <div class="upload-box">
-            <span class="upload-text">Tap to select receipt image</span>
-            <input type="file" id="receiptInput" accept="image/*">
-        </div>
 
-        <button class="btn" onclick="alert('Scanning feature ready!')">Scan Receipt Now</button>
+  <div id="install-banner">
+    <span>Install ReceiptLens App on your device!</span>
+    <button id="install-btn">Install App</button>
+  </div>
+
+  <div class="container">
+    <h2>ReceiptLens AI</h2>
+    <p>Instant receipt parsing & tax audit for modern businesses.</p>
+
+    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+      <p id="file-label" style="margin:0; color:#1e40af; font-weight:500;">Tap to select receipt image</p>
+      <input type="file" id="file-input" accept="image/*" onchange="updateFileName()">
     </div>
+
+    <button id="scan-btn" class="btn-scan" onclick="handleReceiptScan()">Scan Receipt Now</button>
+
+    <div id="scanResultContainer"></div>
+  </div>
+
+  <script>
+    // PWA Install Prompt Logic
+    let deferredPrompt;
+    const installBanner = document.getElementById('install-banner');
+    const installBtn = document.getElementById('install-btn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBanner.style.display = 'flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBanner.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+
+    function updateFileName() {
+      const fileInput = document.getElementById('file-input');
+      const fileLabel = document.getElementById('file-label');
+      if (fileInput.files.length > 0) {
+        fileLabel.innerText = "Selected: " + fileInput.files[0].name;
+      }
+    }
+
+    // Live Cloudflare Worker URL
+    const WORKER_URL = "https://micro-saas-engine.thriloknath7989.workers.dev";
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = (error) => reject(error);
+      });
+    }
+
+    async function handleReceiptScan() {
+      const fileInput = document.getElementById("file-input");
+      const scanBtn = document.getElementById("scan-btn");
+      const resultContainer = document.getElementById("scanResultContainer");
+
+      if (!fileInput.files || fileInput.files.length === 0) {
+        alert("Please select a receipt image first.");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be under 5MB.");
+        return;
+      }
+
+      try {
+        scanBtn.disabled = true;
+        scanBtn.innerText = "Scanning with AI... ⏳";
+        resultContainer.innerHTML = "";
+
+        const base64Data = await fileToBase64(file);
+
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            imageBase64: base64Data,
+            mimeType: file.type,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || "Scanning failed");
+        }
+
+        renderReviewForm(result.data);
+
+      } catch (error) {
+        console.error("Scan Error:", error);
+        alert("Scan failed: " + error.message);
+      } finally {
+        scanBtn.disabled = false;
+        scanBtn.innerText = "Scan Receipt Now";
+      }
+    }
+
+    function renderReviewForm(data) {
+      const container = document.getElementById("scanResultContainer");
+      
+      const warningBanner = data.needs_review 
+        ? `<div style="background:#fff3cd; color:#856404; padding:10px; border-radius:8px; margin-bottom:12px; font-size:13px;">
+             ⚠️ <strong>Review Needed:</strong> ${data.warning_message || "Some details might be unclear. Please verify."}
+           </div>` 
+        : "";
+
+      container.innerHTML = `
+        <div style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="margin:0; font-size:15px; color:#1e293b;">Verify Extracted Details</h3>
+            <span style="background:#dcfce7; color:#166534; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:bold;">
+              Confidence: ${data.confidence_score || 0}%
+            </span>
+          </div>
+          
+          ${warningBanner}
+
+          <div class="input-group">
+            <label>Merchant Name</label>
+            <input type="text" id="editMerchant" value="${data.merchant_name || ''}">
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <div class="input-group" style="flex:1;">
+              <label>Date</label>
+              <input type="date" id="editDate" value="${data.date || ''}">
+            </div>
+            <div class="input-group" style="flex:1;">
+              <label>Category</label>
+              <input type="text" id="editCategory" value="${data.suggested_category || 'Other'}">
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <div class="input-group" style="flex:1;">
+              <label>Tax (${data.tax_label || 'Tax'})</label>
+              <input type="number" step="0.01" id="editTax" value="${data.tax_amount || 0}">
+            </div>
+            <div class="input-group" style="flex:1;">
+              <label>Total (${data.currency || 'USD'})</label>
+              <input type="number" step="0.01" id="editTotal" value="${data.total_amount || 0}" style="font-weight:bold; color:#1e40af;">
+            </div>
+          </div>
+
+          <button onclick="saveVerifiedReceipt()" class="btn-scan" style="background:#10b981; margin-top:5px;">
+            ✅ Confirm & Save Expense
+          </button>
+        </div>
+      `;
+    }
+
+    function saveVerifiedReceipt() {
+      const finalData = {
+        merchant: document.getElementById("editMerchant").value,
+        date: document.getElementById("editDate").value,
+        category: document.getElementById("editCategory").value,
+        tax: parseFloat(document.getElementById("editTax").value),
+        total: parseFloat(document.getElementById("editTotal").value)
+      };
+      console.log("Saved Data:", finalData);
+      alert("Success! Receipt verified and saved.");
+    }
+  </script>
 </body>
 </html>
+
